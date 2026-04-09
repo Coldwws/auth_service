@@ -7,12 +7,15 @@ import (
 	"authorization_service/internal/closer"
 	"authorization_service/internal/config"
 	"authorization_service/internal/repository"
+	accessRepo "authorization_service/internal/repository/access"
 	authRepo "authorization_service/internal/repository/auth"
 	"authorization_service/internal/service"
+	accessServ "authorization_service/internal/service/access"
 	authServ "authorization_service/internal/service/auth"
 	"context"
-	"github.com/jackc/pgx/v4/pgxpool"
 	"log"
+
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 type serviceProvider struct {
@@ -20,16 +23,17 @@ type serviceProvider struct {
 	pgPool   *pgxpool.Pool
 	dbClient db.Client
 
-	authRepository repository.AuthRepository
-	authService    service.AuthService
+	authRepository   repository.AuthRepository
+	accessRepository repository.AccessRepository
+
+	authService   service.AuthService
+	accessService service.AccessService
 
 	authApi *apiAuth.Server
 }
 
 func NewServiceProvider(cfg *config.Config) *serviceProvider {
-	return &serviceProvider{
-		config: cfg,
-	}
+	return &serviceProvider{config: cfg}
 }
 
 var ctx = context.Background()
@@ -44,23 +48,18 @@ func (s *serviceProvider) PGConfig() config.PGConfig {
 func (s *serviceProvider) PGPool() *pgxpool.Pool {
 	if s.pgPool == nil {
 		pool, err := pgxpool.Connect(ctx, s.PGConfig().DSN())
-
 		if err != nil {
 			log.Fatalf("Failed to connect database: %v", err)
 		}
-
 		err = pool.Ping(ctx)
 		if err != nil {
 			log.Fatalf("Failed to ping database: %v", err)
 		}
 		closer.Add(func() error {
-
 			pool.Close()
 			return nil
 		})
-
 		s.pgPool = pool
-
 	}
 	return s.pgPool
 }
@@ -71,17 +70,14 @@ func (s *serviceProvider) DBClient(ctx context.Context) db.Client {
 		if err != nil {
 			log.Fatalf("Failed to init pg client %v", err)
 		}
-
 		err = cl.DB().Ping(ctx)
 		if err != nil {
 			log.Fatalf("ping error: %v", err.Error())
 		}
 		closer.Add(cl.Close)
-
 		s.dbClient = cl
 	}
 	return s.dbClient
-
 }
 
 func (s *serviceProvider) AuthRepository(ctx context.Context) repository.AuthRepository {
@@ -91,18 +87,40 @@ func (s *serviceProvider) AuthRepository(ctx context.Context) repository.AuthRep
 	return s.authRepository
 }
 
+func (s *serviceProvider) AccessRepository(ctx context.Context) repository.AccessRepository {
+	if s.accessRepository == nil {
+		s.accessRepository = accessRepo.NewAccessRepository(s.DBClient(ctx))
+	}
+	return s.accessRepository
+}
+
 func (s *serviceProvider) AuthService(ctx context.Context) service.AuthService {
 	if s.authService == nil {
-		s.authService = authServ.NewAuthService(s.AuthRepository(ctx))
+		tokenCfg := s.config.Token
+		s.authService = authServ.NewAuthService(
+			s.AuthRepository(ctx),
+			[]byte(tokenCfg.AccessSecretKey()),
+			[]byte(tokenCfg.RefreshSecretKey()),
+			tokenCfg.AccessTTL(),
+			tokenCfg.RefreshTTL(),
+		)
 	}
 	return s.authService
 }
 
-func (s *serviceProvider) AuthAPI() *apiAuth.Server {
-
-	if s.authApi == nil {
-		s.authApi = apiAuth.NewServer(s.AuthService(ctx))
+func (s *serviceProvider) AccessService(ctx context.Context) service.AccessService {
+	if s.accessService == nil {
+		s.accessService = accessServ.NewAccessService(s.AccessRepository(ctx))
 	}
+	return s.accessService
+}
 
+func (s *serviceProvider) AuthAPI() *apiAuth.Server {
+	if s.authApi == nil {
+		s.authApi = apiAuth.NewServer(
+			s.AuthService(ctx),
+			s.AccessService(ctx),
+		)
+	}
 	return s.authApi
 }

@@ -7,11 +7,23 @@ import (
 )
 
 type Server struct {
-	authService service.AuthService
+	authService   service.AuthService
+	accessService service.AccessService
 	desc.UnimplementedAuthV1Server
 	desc2.UnimplementedAccessV1Server
 }
 
-func NewServer(aService service.AuthService) *Server {
-	return &Server{authService: aService}
+func NewServer(aService service.AuthService, accService service.AccessService) *Server {
+	return &Server{
+		authService:   aService,
+		accessService: accService,
+	}
+}
+
+func (s *Server) AuthService() service.AuthService {
+	return s.authService
+}
+
+func (s *Server) AccessService() service.AccessService {
+	return s.accessService
 }

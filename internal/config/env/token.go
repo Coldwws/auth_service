@@ -1,75 +1,56 @@
 package env
 
 import (
-	"authorization_service/internal/config"
 	"errors"
 	"os"
 	"time"
 )
 
-const accessSecretKeyEnvName = "ACCESS_TOKEN_SECRET_KEY"
-const refreshSecretKeyEnvName = "REFRESH_TOKEN_SECRET_KEY"
-const accessTTLEnvName = "ACCESS_TTL"
-const refreshTTLEnvName = "REFRESH_TTL"
-
-type tokenConfig struct {
+type TokenConfig struct {
 	accessSecretKey  string
 	refreshSecretKey string
 	accessTTL        time.Duration
 	refreshTTL       time.Duration
 }
 
-func NewTokenConfig() (config.TokenConfig, error) {
-	accessKey := os.Getenv(accessSecretKeyEnvName)
+func NewTokenConfig() (*TokenConfig, error) {
+	accessKey := os.Getenv("ACCESS_TOKEN_SECRET_KEY")
 	if len(accessKey) == 0 {
-		return nil, errors.New(accessKey)
+		return nil, errors.New("ACCESS_TOKEN_SECRET_KEY is empty")
 	}
 
-	refreshKey := os.Getenv(refreshSecretKeyEnvName)
+	refreshKey := os.Getenv("REFRESH_TOKEN_SECRET_KEY")
 	if len(refreshKey) == 0 {
-		return nil, errors.New(refreshKey)
+		return nil, errors.New("REFRESH_TOKEN_SECRET_KEY is empty")
 	}
 
-	accessTTL := os.Getenv(accessTTLEnvName)
+	accessTTL := os.Getenv("ACCESS_TTL")
 	if len(accessTTL) == 0 {
-		return nil, errors.New(accessTTL)
+		return nil, errors.New("ACCESS_TTL is empty")
 	}
-
-	accessDurationTTL, err := time.ParseDuration(accessTTL)
+	accessDuration, err := time.ParseDuration(accessTTL)
 	if err != nil {
 		return nil, err
 	}
 
-	refreshTTL := os.Getenv(refreshTTLEnvName)
+	refreshTTL := os.Getenv("REFRESH_TTL")
 	if len(refreshTTL) == 0 {
-		return nil, errors.New(refreshTTL)
+		return nil, errors.New("REFRESH_TTL is empty")
 	}
-
-	refreshDurationTTL, err := time.ParseDuration(refreshTTL)
+	refreshDuration, err := time.ParseDuration(refreshTTL)
 	if err != nil {
 		return nil, err
 	}
 
-	return &tokenConfig{
+	return &TokenConfig{
 		accessSecretKey:  accessKey,
 		refreshSecretKey: refreshKey,
-		accessTTL:        accessDurationTTL,
-		refreshTTL:       refreshDurationTTL,
+		accessTTL:        accessDuration,
+		refreshTTL:       refreshDuration,
 	}, nil
 }
 
-func (c *tokenConfig) AccessSecretKey() string {
-	return c.accessSecretKey
-}
-
-func (c *tokenConfig) RefreshSecretKey() string {
-	return c.refreshSecretKey
-}
-
-func (c *tokenConfig) AccessTTL() time.Duration {
-	return c.accessTTL
-}
-
-func (c *tokenConfig) RefreshTTL() time.Duration {
-	return c.refreshTTL
-}
+func (c *TokenConfig) AccessSecretKey() string   { return c.accessSecretKey }
+func (c *TokenConfig) RefreshSecretKey() string  { return c.refreshSecretKey }
+func (c *TokenConfig) AccessTTL() time.Duration  { return c.accessTTL }
+func (c *TokenConfig) RefreshTTL() time.Duration { return c.refreshTTL }
