@@ -3,8 +3,10 @@ package app
 import (
 	"authorization_service/internal/closer"
 	"authorization_service/internal/config"
+	"authorization_service/pkg/access_v1"
 	"authorization_service/pkg/auth_v1"
 	"context"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/reflection"
@@ -42,6 +44,10 @@ func (a *App) InitDeps(ctx context.Context) error {
 }
 
 func (a *App) InitConfig(_ context.Context) error {
+	if err := godotenv.Load("docker.env"); err != nil {
+		log.Println("Warning: local.env not found, using system env")
+	}
+
 	cfg := config.LoadConfig()
 	a.config = &cfg
 
@@ -58,7 +64,8 @@ func (a *App) initGRPCServer(ctx context.Context) error {
 	grpc.Creds(insecure.NewCredentials())
 
 	reflection.Register(a.grpcServer)
-	auth_v1.RegisterAuthV1Server(a.grpcServer, a.serviceProvider.UserAPI())
+	auth_v1.RegisterAuthV1Server(a.grpcServer, a.serviceProvider.AuthAPI())
+	access_v1.RegisterAccessV1Server(a.grpcServer, a.serviceProvider.AuthAPI())
 
 	return nil
 
@@ -87,6 +94,7 @@ func (a *App) Run() error {
 		closer.CloseAll()
 		closer.Wait()
 	}()
+
 	err := a.runGRPCServer()
 	if err != nil {
 		log.Printf("failed to run grpc server: %v", err)

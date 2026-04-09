@@ -98,7 +98,7 @@ func (s *serviceProvider) AuthService(ctx context.Context) service.AuthService {
 	return s.authService
 }
 
-func (s *serviceProvider) UserAPI() *apiAuth.Server {
+func (s *serviceProvider) AuthAPI() *apiAuth.Server {
 
 	if s.authApi == nil {
 		s.authApi = apiAuth.NewServer(s.AuthService(ctx))

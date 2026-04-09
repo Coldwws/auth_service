@@ -1,5 +1,11 @@
 include local.migrate.env
+
 LOCAL_BIN:=$(CURDIR)/bin
+LOCAL_MIGRATION_DIR=$(MIGRATION_DIR)
+
+LOCAL_MIGRATION_DSN=host=$(PG_HOST) port=$(PG_PORT) user=$(PG_USER) password=$(PG_PASSWORD) dbname=$(PG_DATABASE_NAME) sslmode=$(PG_SSLMODE)
+
+
 
 install-deps:
 	GOBIN=$(LOCAL_BIN) go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.35.2
@@ -33,13 +39,6 @@ generate-access-api:
 	--go-grpc_out=pkg/access_v1 --go-grpc_opt=paths=source_relative \
 	--plugin=protoc-gen-go-grpc=bin/protoc-gen-go-grpc \
 	api/access_v1/access.proto
-
-
-
-
-LOCAL_MIGRATION_DIR=$(MIGRATION_DIR)
-
-LOCAL_MIGRATION_DSN=host=$(PG_HOST) port=$(PG_PORT) user=$(PG_USER) password=$(PG_PASSWORD) dbname=$(PG_DATABASE_NAME) sslmode=$(PG_SSLMODE)
 
 
 install-deps-goose:
