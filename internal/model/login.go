@@ -1,6 +1,6 @@
 package model
 
 type Login struct {
-	username string `db:"username"`
-	password string `db:"password"`
+	Email    string `db:"email"`
+	Password string `db:"password"`
 }

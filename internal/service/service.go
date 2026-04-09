@@ -10,3 +10,7 @@ type AuthService interface {
 	GetRefreshToken(ctx context.Context, refreshToken string) (string, error)
 	GetAccessToken(ctx context.Context, accessToken string) (string, error)
 }
+
+type AccessService interface {
+	Check(ctx context.Context, endpointAdress string) error
+}

@@ -7,7 +7,9 @@ import (
 	"authorization_service/internal/closer"
 	"authorization_service/internal/config"
 	"authorization_service/internal/repository"
+	authRepo "authorization_service/internal/repository/auth"
 	"authorization_service/internal/service"
+	authServ "authorization_service/internal/service/auth"
 	"context"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"log"
@@ -91,7 +93,7 @@ func (s *serviceProvider) AuthRepository(ctx context.Context) repository.AuthRep
 
 func (s *serviceProvider) AuthService(ctx context.Context) service.AuthService {
 	if s.authService == nil {
-		s.authService = authService.NewUserService(s.AuthRepository(ctx))
+		s.authService = authServ.NewAuthService(s.AuthRepository(ctx))
 	}
 	return s.authService
 }

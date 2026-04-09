@@ -20,7 +20,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AccessV1_Check_FullMethodName = "/access_v1.Access_v1/Check"
+	AccessV1_Check_FullMethodName = "/access_v1.AccessV1/Check"
 )
 
 // AccessV1Client is the client API for AccessV1 service.
@@ -109,7 +109,7 @@ func _AccessV1_Check_Handler(srv interface{}, ctx context.Context, dec func(inte
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AccessV1_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "access_v1.Access_v1",
+	ServiceName: "access_v1.AccessV1",
 	HandlerType: (*AccessV1Server)(nil),
 	Methods: []grpc.MethodDesc{
 		{
