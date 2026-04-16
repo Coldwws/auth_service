@@ -18,6 +18,5 @@ func (s *Server) Check(ctx context.Context, req *desc.CheckRequest) (*emptypb.Em
 	if err != nil {
 		return nil, status.Error(codes.PermissionDenied, err.Error())
 	}
-
 	return &emptypb.Empty{}, nil
 }

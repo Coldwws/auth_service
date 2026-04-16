@@ -33,6 +33,7 @@ type repo struct {
 func NewRepository(db db.Client) repository.AuthRepository {
 	return &repo{db: db}
 }
+
 func (r *repo) Register(ctx context.Context, email, passwordHash, role string) (int64, error) {
 	builder := psq.Insert(usersTable).
 		Columns(colEmail, colPasswordHash, colRole).

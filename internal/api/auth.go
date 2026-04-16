@@ -10,6 +10,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+const traceIDKey = "x-trace-id"
+
 func (s *Server) Login(ctx context.Context, req *desc.LoginRequest) (*desc.LoginResponse, error) {
 	if req.GetEmail() == "" || req.GetPassword() == "" {
 		return nil, status.Error(codes.InvalidArgument, "email and password are required")

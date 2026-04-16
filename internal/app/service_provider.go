@@ -110,7 +110,10 @@ func (s *serviceProvider) AuthService(ctx context.Context) service.AuthService {
 
 func (s *serviceProvider) AccessService(ctx context.Context) service.AccessService {
 	if s.accessService == nil {
-		s.accessService = accessServ.NewAccessService(s.AccessRepository(ctx))
+		s.accessService = accessServ.NewAccessService(
+			s.AccessRepository(ctx),
+			s.config.Token.AccessSecretKey(),
+		)
 	}
 	return s.accessService
 }
