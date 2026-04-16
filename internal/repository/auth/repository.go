@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"authorization_service/internal/client/db"
-	"authorization_service/internal/model"
-	"authorization_service/internal/repository"
 	"context"
+	"github.com/Coldwws/auth_service/internal/client/db"
+	"github.com/Coldwws/auth_service/internal/model"
+	"github.com/Coldwws/auth_service/internal/repository"
 	"time"
 
 	sq "github.com/Masterminds/squirrel"

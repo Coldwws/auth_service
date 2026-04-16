@@ -1,9 +1,9 @@
 package api
 
 import (
-	"authorization_service/internal/service"
-	desc2 "authorization_service/pkg/access_v1"
-	desc "authorization_service/pkg/auth_v1"
+	"github.com/Coldwws/auth_service/internal/service"
+	desc2 "github.com/Coldwws/auth_service/pkg/access_v1"
+	desc "github.com/Coldwws/auth_service/pkg/auth_v1"
 )
 
 type Server struct {

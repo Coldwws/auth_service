@@ -1,9 +1,9 @@
 package api
 
 import (
-	"authorization_service/internal/model"
-	desc "authorization_service/pkg/auth_v1"
 	"context"
+	"github.com/Coldwws/auth_service/internal/model"
+	desc "github.com/Coldwws/auth_service/pkg/auth_v1"
 
 	"github.com/pkg/errors"
 	"google.golang.org/grpc/codes"

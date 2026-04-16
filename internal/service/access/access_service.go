@@ -1,11 +1,11 @@
 package access
 
 import (
-	"authorization_service/internal/repository"
-	"authorization_service/internal/service"
-	"authorization_service/internal/utils"
 	"context"
 	"errors"
+	"github.com/Coldwws/auth_service/internal/repository"
+	"github.com/Coldwws/auth_service/internal/service"
+	"github.com/Coldwws/auth_service/internal/utils"
 	"google.golang.org/grpc/metadata"
 	"strings"
 )

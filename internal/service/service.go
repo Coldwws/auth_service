@@ -1,8 +1,8 @@
 package service
 
 import (
-	"authorization_service/internal/model"
 	"context"
+	"github.com/Coldwws/auth_service/internal/model"
 )
 
 type AuthService interface {

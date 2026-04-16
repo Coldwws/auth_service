@@ -1,13 +1,13 @@
 package app
 
 import (
-	"authorization_service/internal/closer"
-	"authorization_service/internal/config"
-	"authorization_service/internal/logger"
-	"authorization_service/internal/tracing"
-	"authorization_service/pkg/access_v1"
-	"authorization_service/pkg/auth_v1"
 	"context"
+	"github.com/Coldwws/auth_service/internal/closer"
+	"github.com/Coldwws/auth_service/internal/config"
+	"github.com/Coldwws/auth_service/internal/logger"
+	"github.com/Coldwws/auth_service/internal/tracing"
+	"github.com/Coldwws/auth_service/pkg/access_v1"
+	"github.com/Coldwws/auth_service/pkg/auth_v1"
 	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	"github.com/joho/godotenv"
 	"github.com/natefinch/lumberjack"

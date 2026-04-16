@@ -1,9 +1,9 @@
 package access
 
 import (
-	"authorization_service/internal/client/db"
-	"authorization_service/internal/repository"
 	"context"
+	"github.com/Coldwws/auth_service/internal/client/db"
+	"github.com/Coldwws/auth_service/internal/repository"
 	sq "github.com/Masterminds/squirrel"
 	"github.com/pkg/errors"
 )

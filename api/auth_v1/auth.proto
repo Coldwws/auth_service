@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package auth_v1;
 
-option go_package = "authorization_service/pkg/auth_v1;auth_v1";
+option go_package = "github.com/Coldwws/auth_service/pkg/auth_v1;auth_v1";
 
 service AuthV1 {
   rpc Register(RegisterRequest)returns(RegisterResponse);

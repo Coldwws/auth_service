@@ -1,8 +1,8 @@
 package pg
 
 import (
-	"authorization_service/internal/client/db"
 	"context"
+	"github.com/Coldwws/auth_service/internal/client/db"
 
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/pkg/errors"

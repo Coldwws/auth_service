@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"authorization_service/internal/model"
+	"github.com/Coldwws/auth_service/internal/model"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/pkg/errors"
 	"time"

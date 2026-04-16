@@ -1,11 +1,11 @@
 package service
 
 import (
-	"authorization_service/internal/model"
-	"authorization_service/internal/repository"
-	"authorization_service/internal/service"
-	"authorization_service/internal/utils"
 	"context"
+	"github.com/Coldwws/auth_service/internal/model"
+	"github.com/Coldwws/auth_service/internal/repository"
+	"github.com/Coldwws/auth_service/internal/service"
+	"github.com/Coldwws/auth_service/internal/utils"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 

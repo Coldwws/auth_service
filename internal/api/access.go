@@ -1,8 +1,8 @@
 package api
 
 import (
-	desc "authorization_service/pkg/access_v1"
 	"context"
+	desc "github.com/Coldwws/auth_service/pkg/access_v1"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

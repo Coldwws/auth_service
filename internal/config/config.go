@@ -1,7 +1,7 @@
 package config
 
 import (
-	"authorization_service/internal/config/env"
+	"github.com/Coldwws/auth_service/internal/config/env"
 	"log"
 	"os"
 	"time"

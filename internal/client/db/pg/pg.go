@@ -1,10 +1,10 @@
 package pg
 
 import (
-	"authorization_service/internal/client/db"
-	"authorization_service/internal/client/db/prettier"
 	"context"
 	"fmt"
+	"github.com/Coldwws/auth_service/internal/client/db"
+	"github.com/Coldwws/auth_service/internal/client/db/prettier"
 	"github.com/georgysavva/scany/pgxscan"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"

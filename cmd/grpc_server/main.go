@@ -1,9 +1,9 @@
 package main
 
 import (
-	"authorization_service/internal/app"
 	"context"
 	"flag"
+	"github.com/Coldwws/auth_service/internal/app"
 	"log"
 )
 
